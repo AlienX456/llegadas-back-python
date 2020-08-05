@@ -35,8 +35,8 @@ class TestPOST(unittest.TestCase):
         with app.test_client() as client:
             
             data = {
-                        "vuel": "AV270",
-                        "fecha": "2020-08-04T20:20:10.000Z",
+                        "vuel": "AV290",
+                        "fecha": "2020-09-04T20:20:10.000Z",
                         "retraso_horas": 5,
                         "origen_ciudad": "Toronto",
                         "internacional": True,
