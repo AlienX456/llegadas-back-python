@@ -3,7 +3,15 @@ from flask import Flask,request,Response
 from werkzeug.exceptions import HTTPException
 import json
 
+#MONGO
+from pymongo import MongoClient
+mongdb = "llegadas-db"
+collection = "llegadas"
+url = "mongodb://127.0.0.1:27017/"
+
 app = Flask(__name__)
+
+
 
 @app.route('/api/v1/entrada', methods=['GET','POST'])
 def admin_request():
@@ -18,11 +26,37 @@ def admin_request():
 
         if formato_fecha_v1 == llaves_fechas:
 
-            return Response(response=json.dumps(fechas),content_type='application/json')
+            client_response=MongoClient(url)[mongdb][collection].find({"fecha": {"$gte": fechas[formato_fecha_v1[0]], "$lt": fechas[formato_fecha_v1[1]]}},{ "_id": False})
+
+            mylist = [x for x in client_response]
+
+            return Response(response = json.dumps(mylist),status = 200,content_type='application/json')
 
         else:
-            error = {"error":'Formato del body erroneo (llaves erroneas)'}
-            return Response(response=json.dumps(error), content_type='application/json', status = 400)
+            return Response(response=json.dumps({"error":'Formato del body erroneo (llaves erroneas)'}), content_type='application/json', status = 400)
+
+
+    else:
+
+        data = request.get_json()
+
+        formato_llegadas_v1 = ["vuelo","fecha","retraso_horas","origen_ciudad","internacional","aerolinea","pasajeros","avion","escala"]
+
+        llaves_llegadas = list(data.keys())
+
+        if formato_llegadas_v1 == llaves_llegadas:
+
+            client_response=MongoClient(url)[mongdb][collection].insert_one(data)
+
+            return Response(status = 201)
+
+
+        else:
+            return Response(response=json.dumps({"error":'Formato del body erroneo (llaves erroneas)'}), content_type='application/json', status = 400)
+
+
+
+
 
 
 
