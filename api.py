@@ -1,28 +1,29 @@
 
-from flask import Flask,request
+from flask import Flask,request,Response
 from werkzeug.exceptions import HTTPException
+import json
 
 app = Flask(__name__)
 
 @app.route('/api/v1/entrada', methods=['GET','POST'])
 def admin_request():
-    return None
 
+    if request.method == 'GET':
+    
+        fechas = request.get_json()
 
-#Error Handler propuesto por flask
-@app.errorhandler(HTTPException)
-def handle_exception(e):
-    """Return JSON instead of HTML for HTTP errors."""
-    # start with the correct headers and status code from the error
-    response = e.get_response()
-    # replace the body with JSON
-    response.data = json.dumps({
-        "code": e.code,
-        "name": e.name,
-        "description": e.description,
-    })
-    response.content_type = "application/json"
-    return response
+        formato_fecha_v1 = ["fecha_inicio","fecha_final"]
+
+        llaves_fechas = list(fechas.keys())
+
+        if formato_fecha_v1 == llaves_fechas:
+
+            return Response(response=json.dumps(fechas),content_type='application/json')
+
+        else:
+            error = {"error":'Formato del body erroneo (llaves erroneas)'}
+            return Response(response=json.dumps(error), content_type='application/json', status = 400)
+
 
 
 
