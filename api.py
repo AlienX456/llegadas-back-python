@@ -7,7 +7,13 @@ import json
 from pymongo import MongoClient
 mongdb = "llegadas-db"
 collection = "llegadas"
-url = "mongodb://127.0.0.1:27017/"
+#CRED
+import os
+
+user = os.getenv('USERMONGO')
+passmongo = os.getenv('PASSMONGO')
+
+url = "mongodb+srv://"+user+":"+passmongo+"@cluster0.6zcns.mongodb.net/<dbname>?retryWrites=true&w=majority"
 
 app = Flask(__name__)
 
