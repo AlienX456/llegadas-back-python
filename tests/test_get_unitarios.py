@@ -40,15 +40,3 @@ class TestGET(unittest.TestCase):
             result = client.get('/api/v1/entrada',data=json.dumps(fechas),content_type='application/json')
             
             self.assertEqual(json.dumps(result.json), json.dumps(resultado_esperado))
-
-
-
-    def test_entrada_fomato(self):
-        
-        with app.test_client() as client:
-            
-            fechas = {"fecha_inici":"2020-08-04", "fecha_final":"2020-08-05"}
-
-            result = client.get('/api/v1/entrada',data=json.dumps(fechas),content_type='application/json')
-
-            self.assertEqual(result.status_code, 400)
