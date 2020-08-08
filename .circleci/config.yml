@@ -1,6 +1,10 @@
 version: 2.1
 
 
+orbs:
+    aws-ecr: circleci/aws-ecr@6.5.0
+    aws-ecs: circleci/aws-ecs@0.0.10
+
 jobs:
     test:
         docker:
@@ -18,3 +22,26 @@ workflows:
     test-deploy:
         jobs:
             - test
+            - aws-ecr/build-and-push-image:
+                context: AWSCONTEXT
+                filters:
+                    branches:
+                      only: 
+                        - master
+                requires: 
+                  - test
+                account-url: AWS_ECR_ACCOUNT_URL
+                repo: '${AWS_REPO}'
+                tag: '${CIRCLE_SHA1}'
+            - aws-ecs/deploy-service-update:
+                context: AWSCONTEXT
+                filters:
+                    branches:
+                      only: 
+                        - master
+                requires:
+                    - aws-ecr/build-and-push-image
+                family: "${AWS_SERVICE_NAME_PREFIX}"
+                cluster-name: "${AWS_CLUSTER_NAME}"
+                service-name: "${AWS_SERVICE_NAME_PREFIX}-service"
+                container-image-name-updates: "container=${AWS_CONTAINER_NAME},tag=${CIRCLE_SHA1}"
