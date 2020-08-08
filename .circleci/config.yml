@@ -18,3 +18,10 @@ workflows:
     test-deploy:
         jobs:
             - test
+            - aws-ecr/build-and-push-image:
+                context: AWSCONTEXT
+                requires: 
+                  - test
+                account-url: AWS_ECR_ACCOUNT_URL
+                repo: '${AWS_REPO}'
+                tag: '${CIRCLE_SHA1}'
