@@ -14,7 +14,7 @@ jobs:
                 name: Realizando Tests Unitarios
                 command: python -m unittest -v
 
-workflow:
+workflows:
     test-deploy:
         jobs:
             - test
