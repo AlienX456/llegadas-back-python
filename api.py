@@ -68,7 +68,7 @@ def admin_request():
 
 def get_bad_request_400():
 
-    return Response(response=json.dumps({"error":"verifique la petición"}), content_type='application/json', status = 400)
+    return Response(status = 400)
 
 
 
