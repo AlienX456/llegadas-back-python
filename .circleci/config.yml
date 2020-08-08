@@ -24,6 +24,10 @@ workflows:
             - test
             - aws-ecr/build-and-push-image:
                 context: AWSCONTEXT
+                filters:
+                    branches:
+                      only: 
+                        - master
                 requires: 
                   - test
                 account-url: AWS_ECR_ACCOUNT_URL
@@ -31,6 +35,10 @@ workflows:
                 tag: '${CIRCLE_SHA1}'
             - aws-ecs/deploy-service-update:
                 context: AWSCONTEXT
+                filters:
+                    branches:
+                      only: 
+                        - master
                 requires:
                     - aws-ecr/build-and-push-image
                 family: "${AWS_SERVICE_NAME_PREFIX}"
