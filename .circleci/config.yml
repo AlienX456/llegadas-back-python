@@ -16,4 +16,5 @@ jobs:
 
 workflow:
     test-deploy:
-        - test
+        jobs:
+            - test
