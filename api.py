@@ -18,6 +18,9 @@ url = "mongodb+srv://"+user+":"+passmongo+"@cluster0.6zcns.mongodb.net/<dbname>?
 
 app = Flask(__name__)
 
+@app.route('/api/v1/entrada', methods=['GET'])
+def testear():
+    return Response(status = 200)
 
 @app.route('/api/v1/entrada/<fecha_inicio>/<fecha_final>', methods=['GET'])
 def buscar(fecha_inicio,fecha_final):
