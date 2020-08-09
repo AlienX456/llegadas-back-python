@@ -22,15 +22,10 @@
 ```
 
 
-## GET "/Api/v1/entrada" Resquest Body
-```git status
-{
-    fecha_inicio: String "AAAA-MM-DD"
-    fecha_final: String "AAAA-MM-DD"
-{
+
+## GET "/Api/v1/entrada/AAAA-MM-DD/AAAA-MM-DD" Response Body (200)
 ```
-## GET "/Api/v1/entrada" Response Body (200)
-```
+[
 {
     vuelo: String
     fecha: String "AAAA-MM-DDTHH:MM:SS.000Z"
@@ -41,7 +36,9 @@
     pasajeros: Number
     avion: String
     escala: True|False
-{
+{,
+...
+]
 ```
 ## POST "/Api/v1/entrada" Request Body
 ```

@@ -30,7 +30,7 @@ class TestPOST(unittest.TestCase):
 
 
 
-    def test_entrada_fomato(self):
+    def test_entrada_formato(self):
         
         with app.test_client() as client:
             
