@@ -12,8 +12,6 @@ class TestGET(unittest.TestCase):
 
         with app.test_client() as client:
 
-            fechas = {"fecha_inicio":"2020-08-04", "fecha_final":"2020-08-05"}
-
             resultado_esperado = [{
                                     "vuelo": "AV244",
                                     "fecha": "2020-08-04T20:20:10.000Z",
@@ -37,6 +35,6 @@ class TestGET(unittest.TestCase):
                                     "escala": False
                                 }]
 
-            result = client.get('/api/v1/entrada',data=json.dumps(fechas),content_type='application/json')
+            result = client.get('/api/v1/entrada/2020-08-04/2020-08-05')
             
             self.assertEqual(json.dumps(result.json), json.dumps(resultado_esperado))
