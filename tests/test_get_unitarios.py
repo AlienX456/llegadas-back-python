@@ -8,6 +8,14 @@ app.testing = True
 
 class TestGET(unittest.TestCase):
 
+    def test_conexion(self):
+
+        with app.test_client() as client:
+        
+            result = client.get('/api/v1/entrada')
+                
+            self.assertEqual(result.status_code,200)
+
     def test_entrada_datos(self):
 
         with app.test_client() as client:
